@@ -27,14 +27,8 @@ def read_person(person_id: int, db: Session = Depends(database.get_db)):
 
 @router.get("/people/by-age/{age}", response_model=List[schemas.Person])
 def get_people_by_age(age: int, db: Session = Depends(database.get_db)):
-    try:
-        people = db.query(models.Person).filter(models.Person.age == age).all()
-        return people
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Произошла ошибка при поиске людей с возрастом {age}: {str(e)}"
-        )
+    people = db.query(models.Person).filter(models.Person.age == age).all()
+    return people
 
 @router.get("/people/age-range/", response_model=List[schemas.Person])
 def get_people_by_age_range(min_age: int = 0, max_age: int = 150, db: Session = Depends(database.get_db)):
