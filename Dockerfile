@@ -11,14 +11,18 @@ RUN apt-get update && apt-get install -y \
 
 # Копируем и устанавливаем зависимости
 COPY requirements.txt .
+COPY pytest.ini .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install pytest  # Добавляем установку pytest
 
 # Создаем директорию для данных
 RUN mkdir /app/data
 
 # Копируем код приложения
 COPY . .
+COPY app/ app/
+COPY tests/ tests/
 
 # Проверяем права на директорию с данными
 RUN chmod -R 755 /app/data
@@ -27,4 +31,4 @@ RUN chmod -R 755 /app/data
 EXPOSE 8000
 
 # Используем скрипт запуска
-CMD ["python", "main.py"] 
+CMD ["python", "main.py"]
