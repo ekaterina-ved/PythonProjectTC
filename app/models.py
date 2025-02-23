@@ -7,7 +7,7 @@ class Person(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    age = Column(Integer)
+    age = Column(Integer, nullable=False)
 
     def __str__(self):
         return f"Person(name='{self.name}', age={self.age})" 
